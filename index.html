@@ -54,6 +54,22 @@
 .atlas-cartilage{fill:none;stroke:#b8c0ca;stroke-width:1.3}
 .atlas-muscle{fill:#8d3535;stroke:#d06b6b;stroke-width:1.2}
 @media(max-width:620px){.atlas-stage{min-height:690px}.atlas-figure{height:600px}.atlas-body{width:240px;height:575px}.atlas-label{font-size:10px;max-width:100px}}
+
+/* V1.4 — clean tap-to-locate Anatomy Atlas */
+.atlas-stage{min-height:650px}
+.atlas-figure.clean{height:560px;width:min(100%,360px)}
+.atlas-body.clean{width:245px;height:550px;top:0}
+.atlas-key-wrap{margin-top:14px}
+.atlas-key-title{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#aeb3bd;font-weight:900;margin-bottom:10px}
+.atlas-key-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.atlas-key-btn{border:1px solid #343a44;background:#111318;color:#e8ebf2;border-radius:14px;padding:11px 10px;font-weight:850;text-align:left;cursor:pointer}
+.atlas-key-btn.on{border-color:#6fa7ff;background:#10244a;color:#fff;box-shadow:0 0 0 1px #3679e8 inset}
+.atlas-target{position:absolute;width:18px;height:18px;border-radius:50%;background:#3679e8;border:3px solid #b7d2ff;box-shadow:0 0 0 7px #3679e833,0 0 28px #3679e8;z-index:8;transform:translate(-50%,-50%);animation:atlasPulse 1.25s ease-in-out infinite}
+@keyframes atlasPulse{50%{box-shadow:0 0 0 12px #3679e811,0 0 34px #3679e8}}
+.atlas-selected{margin:14px 0 0;background:#0e1420;border:1px solid #2c5797;border-radius:18px;padding:14px}
+.atlas-selected b{font-size:18px}.atlas-selected span{display:block;color:var(--muted);margin-top:4px;font-size:13px;line-height:1.4}
+.atlas-help{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
+@media(max-width:620px){.atlas-stage{min-height:625px}.atlas-figure.clean{height:535px}.atlas-body.clean{width:235px;height:530px}.atlas-key-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head><body><div class="wrap">
 <header class="top"><div class="brand">Exercise Science <b>HQ</b> 🦴</div><div id="saved" class="saved">Saved ✓</div></header>
@@ -147,7 +163,7 @@ const demo=`REGION: Skull + Face\nBONE: Cranium\nWHERE: Head / skull\nJOB: Prote
 const fresh=()=>({weeks:[],bones:{},quiz:{right:0,total:0},sessions:0,currentRegion:'Skull + Face'});
 let data=(()=>{try{return JSON.parse(localStorage.getItem(KEY))||fresh()}catch(e){return fresh()}})();let flashIndex=0,flipped=false,reverse=false,quizState=null;
 
-let atlasSystem='bones',atlasView='front';
+let atlasSystem='bones',atlasView='front',atlasSelected=null;
 const ATLAS_LABELS={
 bones:{
  front:[['Skull / cranium',2,45,'left',128,48],['Mandible',77,76,'right',139,79],['Clavicle',2,118,'left',112,115],['Sternum',77,143,'right',130,143],['Ribs',2,169,'left',109,166],['Humerus',77,205,'right',161,205],['Radius',2,249,'left',91,252],['Ulna',77,274,'right',166,273],['Pelvis',2,323,'left',112,323],['Femur',77,382,'right',151,382],['Patella',2,446,'left',113,446],['Tibia',77,491,'right',147,493],['Fibula',2,523,'left',106,523],['Tarsals',77,555,'right',151,555],['Metatarsals',2,575,'left',110,574],['Phalanges',77,591,'right',160,588]],
@@ -190,16 +206,25 @@ function atlasLeader(labelX,labelY,targetX,targetY,side){
  return `<span class="atlas-leader" style="left:${sx}px;top:${sy}px;width:${len}px;transform:rotate(${ang}deg)"></span><span class="atlas-dot" style="left:${tx-2.5}px;top:${ty-2.5}px"></span>`;
 }
 function renderAtlas(){
- const labels=ATLAS_LABELS[atlasSystem][atlasView];
- let labelHtml=labels.map(([name,x,y,side,tx,ty])=>`<div class="atlas-label ${side}" style="${side==='left'?'left':'right'}:${x}px;top:${y}px">${name}</div>${atlasLeader(x,y,tx,ty,side)}`).join('');
- const titles={bones:'Major Bones',joints:'Major Joints',muscles:'Major Muscles'};
- const notes={bones:'Reference first, memorize later. Follow the leader lines from each name directly to the structure on the body.',joints:'Blue markers show the major joint locations. Your formal joint lessons stay locked until the Bones phase is comfortable.',muscles:'These are major muscle groups for visual orientation. Muscle Study will later connect each one to bones, joints, and movement.'};
- document.getElementById('atlasContent').innerHTML=`<div class="atlas-stage"><h3 class="atlas-title">${titles[atlasSystem]}</h3><div class="atlas-sub">${atlasView==='front'?'Anterior view · front':'Posterior view · back'}</div><div class="atlas-figure"><div class="atlas-body">${atlasSkeleton(atlasSystem,atlasView)}</div>${labelHtml}</div></div><div class="atlas-note">${notes[atlasSystem]}</div>`;
- document.querySelectorAll('.atlas-tab').forEach(b=>b.classList.toggle('on',b.dataset.system===atlasSystem));
- document.querySelectorAll('.view-tab').forEach(b=>b.classList.toggle('on',b.dataset.view===atlasView));
+  const labels=ATLAS_LABELS[atlasSystem][atlasView];
+  const titles={bones:'Major Bones',joints:'Major Joints',muscles:'Major Muscles'};
+  const notes={bones:'Tap a bone name below and HQ will show you exactly where it lives on the body.',joints:'Tap a joint name below to light up its location. Your formal joint lessons still stay locked until the Bones phase is comfortable.',muscles:'Tap a muscle group below to locate it. Later Muscle Study will connect each one to bones, joints, and movement.'};
+  if(!atlasSelected || !labels.some(x=>x[0]===atlasSelected)) atlasSelected=null;
+  let target='';
+  if(atlasSelected){
+    const item=labels.find(x=>x[0]===atlasSelected),tx=item[4],ty=item[5];
+    const bodyLeft=(360-245)/2, bodyTop=0;
+    const px=bodyLeft+(tx/260)*245, py=bodyTop+(ty/600)*550;
+    target=`<span class="atlas-target" style="left:${px}px;top:${py}px" aria-hidden="true"></span>`;
+  }
+  const key=labels.map(([name])=>`<button class="atlas-key-btn ${atlasSelected===name?'on':''}" onclick="selectAtlasPart(${JSON.stringify(name).replace(/"/g,'&quot;')})">${esc(name)}</button>`).join('');
+  document.getElementById('atlasContent').innerHTML=`<div class="atlas-stage"><h3 class="atlas-title">${titles[atlasSystem]}</h3><div class="atlas-sub">${atlasView==='front'?'Anterior view · front':'Posterior view · back'}</div><div class="atlas-figure clean"><div class="atlas-body clean">${atlasSkeleton(atlasSystem,atlasView)}</div>${target}</div><div class="atlas-help">👇 Tap a name in the key to locate it</div></div><div class="atlas-key-wrap"><div class="atlas-key-title">Key · tap to find it</div><div class="atlas-key-grid">${key}</div>${atlasSelected?`<div class="atlas-selected"><b>📍 ${esc(atlasSelected)}</b><span>Highlighted above on the ${atlasView==='front'?'front':'back'} view.</span></div>`:''}</div><div class="atlas-note">${notes[atlasSystem]}</div>`;
+  document.querySelectorAll('.atlas-tab').forEach(b=>b.classList.toggle('on',b.dataset.system===atlasSystem));
+  document.querySelectorAll('.view-tab').forEach(b=>b.classList.toggle('on',b.dataset.view===atlasView));
 }
-window.setAtlasSystem=s=>{atlasSystem=s;renderAtlas()};
-window.setAtlasView=v=>{atlasView=v;renderAtlas()};
+window.selectAtlasPart=n=>{atlasSelected=n;renderAtlas()};
+window.setAtlasSystem=s=>{atlasSystem=s;atlasSelected=null;renderAtlas()};
+window.setAtlasView=v=>{atlasView=v;atlasSelected=null;renderAtlas()};
 
 function save(){localStorage.setItem(KEY,JSON.stringify(data));document.getElementById('saved').textContent='Saved ✓';renderAll()}
 function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
