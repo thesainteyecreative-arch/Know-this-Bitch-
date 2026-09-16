@@ -40,6 +40,20 @@
 .atlas-muscle{fill:#8d3535;stroke:#d06b6b;stroke-width:1.2}.atlas-joint{fill:#3679e8;stroke:#8bb8ff;stroke-width:2}.atlas-bone{fill:none;stroke:#e7dfcf;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}.atlas-thin{fill:none;stroke:#d9d1c2;stroke-width:3;stroke-linecap:round}
 @media(max-width:620px){.atlas-stage{min-height:610px}.atlas-figure{width:300px}}
 
+
+/* V1.3 — realistic Anatomy Atlas polish */
+.atlas-stage{min-height:700px;padding:16px 6px 20px}
+.atlas-figure{width:min(100%,390px);height:610px}
+.atlas-body{top:4px;width:250px;height:590px}
+.atlas-label{font-size:10.5px;max-width:105px;z-index:3;text-shadow:0 1px 3px #000}
+.atlas-leader{position:absolute;height:1px;background:#8c95a5;transform-origin:0 50%;z-index:2;opacity:.9}
+.atlas-dot{position:absolute;width:5px;height:5px;border-radius:50%;background:#8bb8ff;z-index:4;box-shadow:0 0 0 2px #0c0e12}
+.atlas-bone-fill{fill:#e7dfcf;stroke:#cfc6b5;stroke-width:1.2}
+.atlas-bone-stroke{fill:none;stroke:#e7dfcf;stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round}
+.atlas-bone-fine{fill:none;stroke:#d9d1c2;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.atlas-cartilage{fill:none;stroke:#b8c0ca;stroke-width:1.3}
+.atlas-muscle{fill:#8d3535;stroke:#d06b6b;stroke-width:1.2}
+@media(max-width:620px){.atlas-stage{min-height:690px}.atlas-figure{height:600px}.atlas-body{width:240px;height:575px}.atlas-label{font-size:10px;max-width:100px}}
 </style>
 </head><body><div class="wrap">
 <header class="top"><div class="brand">Exercise Science <b>HQ</b> 🦴</div><div id="saved" class="saved">Saved ✓</div></header>
@@ -136,42 +150,50 @@ let data=(()=>{try{return JSON.parse(localStorage.getItem(KEY))||fresh()}catch(e
 let atlasSystem='bones',atlasView='front';
 const ATLAS_LABELS={
 bones:{
- front:[['Skull / cranium',8,28,'left'],['Mandible',82,46,'right'],['Clavicle',5,94,'left'],['Sternum',82,116,'right'],['Ribs',4,142,'left'],['Humerus',82,168,'right'],['Radius',4,213,'left'],['Ulna',82,230,'right'],['Pelvis',5,272,'left'],['Femur',82,325,'right'],['Patella',5,376,'left'],['Tibia',82,410,'right'],['Fibula',5,434,'left'],['Tarsals / Metatarsals / Phalanges',72,468,'right']],
- back:[['Skull / cranium',8,28,'left'],['Cervical vertebrae',78,72,'right'],['Scapula',5,110,'left'],['Vertebrae / spine',78,145,'right'],['Ribs',5,174,'left'],['Humerus',78,201,'right'],['Radius + Ulna',4,239,'left'],['Pelvis',78,280,'right'],['Femur',5,330,'left'],['Tibia + Fibula',78,411,'right'],['Calcaneus',8,472,'left']]
-},
+ front:[['Skull / cranium',2,45,'left',128,48],['Mandible',77,76,'right',139,79],['Clavicle',2,118,'left',112,115],['Sternum',77,143,'right',130,143],['Ribs',2,169,'left',109,166],['Humerus',77,205,'right',161,205],['Radius',2,249,'left',91,252],['Ulna',77,274,'right',166,273],['Pelvis',2,323,'left',112,323],['Femur',77,382,'right',151,382],['Patella',2,446,'left',113,446],['Tibia',77,491,'right',147,493],['Fibula',2,523,'left',106,523],['Tarsals',77,555,'right',151,555],['Metatarsals',2,575,'left',110,574],['Phalanges',77,591,'right',160,588]],
+ back:[['Skull / cranium',2,45,'left',128,48],['Cervical vertebrae',77,91,'right',130,93],['Scapula',2,137,'left',108,137],['Vertebrae / spine',77,175,'right',130,177],['Ribs',2,202,'left',108,200],['Humerus',77,232,'right',160,230],['Radius + Ulna',2,277,'left',94,277],['Pelvis',77,327,'right',151,326],['Femur',2,386,'left',112,386],['Tibia + Fibula',77,500,'right',148,500],['Calcaneus',2,579,'left',110,578]]},
 joints:{
- front:[['TMJ · jaw',8,47,'left'],['Shoulder',80,101,'right'],['Elbow',5,183,'left'],['Wrist',80,232,'right'],['Hip',5,286,'left'],['Knee',80,378,'right'],['Ankle',5,458,'left']],
- back:[['Neck / cervical',78,70,'right'],['Shoulder',5,105,'left'],['Elbow',78,184,'right'],['Wrist',5,232,'left'],['Spinal joints',78,205,'right'],['Hip',5,286,'left'],['Knee',78,378,'right'],['Ankle',5,458,'left']]
-},
+ front:[['TMJ · jaw',2,77,'left',127,78],['Shoulder',77,133,'right',164,132],['Elbow',2,244,'left',92,244],['Wrist',77,296,'right',168,296],['Hip',2,333,'left',113,333],['Knee',77,446,'right',151,446],['Ankle',2,548,'left',110,548]],
+ back:[['Neck / cervical',77,91,'right',130,93],['Shoulder',2,133,'left',97,132],['Elbow',77,244,'right',168,244],['Wrist',2,296,'left',91,296],['Spinal joints',77,204,'right',130,204],['Hip',2,333,'left',113,333],['Knee',77,446,'right',151,446],['Ankle',2,548,'left',110,548]]},
 muscles:{
- front:[['Deltoid',5,102,'left'],['Pectoralis major',78,125,'right'],['Biceps',4,168,'left'],['Forearm muscles',78,215,'right'],['Rectus abdominis',5,222,'left'],['Hip flexor region',78,284,'right'],['Quadriceps',4,338,'left'],['Tibialis anterior',78,418,'right']],
- back:[['Trapezius',5,88,'left'],['Deltoid',78,110,'right'],['Triceps',5,168,'left'],['Latissimus dorsi',78,198,'right'],['Erector spinae',5,232,'left'],['Gluteus maximus',78,286,'right'],['Hamstrings',5,345,'left'],['Gastrocnemius · calf',78,417,'right']]
-}};
+ front:[['Deltoid',2,137,'left',101,137],['Pectoralis major',77,159,'right',142,160],['Biceps',2,202,'left',91,202],['Forearm muscles',77,260,'right',168,260],['Rectus abdominis',2,235,'left',119,235],['Hip flexors',77,329,'right',149,329],['Quadriceps',2,388,'left',113,388],['Tibialis anterior',77,500,'right',149,500]],
+ back:[['Trapezius',77,125,'right',132,126],['Deltoid',2,144,'left',100,144],['Triceps',77,205,'right',163,205],['Latissimus dorsi',2,222,'left',116,222],['Erector spinae',77,255,'right',133,255],['Gluteus maximus',2,329,'left',113,329],['Hamstrings',77,392,'right',113,392],['Gastrocnemius · calf',2,499,'left',111,499]]}};
+
 function atlasSkeleton(system,view){
- let base=`<svg viewBox="0 0 180 500" aria-label="${system} ${view} reference diagram">
- <ellipse cx="90" cy="38" rx="27" ry="33" fill="${system==='muscles'?'#8d3535':'#e7dfcf'}" stroke="#cfc6b5" stroke-width="1.5"/>
- <path class="${system==='muscles'?'atlas-muscle':'atlas-bone'}" d="M90 72 L90 245"/>
- <path class="${system==='muscles'?'atlas-muscle':'atlas-thin'}" d="M90 92 Q62 86 49 104 M90 92 Q118 86 131 104"/>
- <path class="${system==='muscles'?'atlas-muscle':'atlas-thin'}" d="M90 110 Q60 105 58 132 Q68 145 90 140 M90 110 Q120 105 122 132 Q112 145 90 140 M90 136 Q63 134 65 158 Q73 170 90 166 M90 136 Q117 134 115 158 Q107 170 90 166"/>
- <path class="${system==='muscles'?'atlas-muscle':'atlas-bone'}" d="M49 105 L35 195 M131 105 L145 195"/>
- <path class="${system==='muscles'?'atlas-muscle':'atlas-thin'}" d="M35 198 L24 263 M40 198 L32 264 M145 198 L156 263 M140 198 L148 264"/>
- <path class="${system==='muscles'?'atlas-muscle':'atlas-thin'}" d="M90 238 Q67 222 57 243 Q60 267 81 276 Q90 281 99 276 Q120 267 123 243 Q113 222 90 238"/>
- <path class="${system==='muscles'?'atlas-muscle':'atlas-bone'}" d="M78 274 L69 374 M102 274 L111 374"/>
- <path class="${system==='muscles'?'atlas-muscle':'atlas-thin'}" d="M69 382 L65 470 M76 382 L75 469 M111 382 L115 470 M104 382 L105 469"/>
- <path class="${system==='muscles'?'atlas-muscle':'atlas-bone'}" d="M65 474 Q52 478 43 487 Q58 491 77 486 M115 474 Q128 478 137 487 Q122 491 103 486"/>`;
- if(system==='joints') base+=`<g>${[[90,72],[49,105],[131,105],[35,198],[145,198],[29,264],[151,264],[78,274],[102,274],[69,378],[111,378],[67,471],[113,471]].map(p=>`<circle class="atlas-joint" cx="${p[0]}" cy="${p[1]}" r="6"/>`).join('')}</g>`;
- if(system==='muscles') base+=`<g opacity=".95"><ellipse class="atlas-muscle" cx="62" cy="112" rx="12" ry="18"/><ellipse class="atlas-muscle" cx="118" cy="112" rx="12" ry="18"/><ellipse class="atlas-muscle" cx="90" cy="137" rx="20" ry="25"/><ellipse class="atlas-muscle" cx="47" cy="154" rx="9" ry="27"/><ellipse class="atlas-muscle" cx="133" cy="154" rx="9" ry="27"/><rect class="atlas-muscle" x="77" y="164" width="26" height="63" rx="12"/><ellipse class="atlas-muscle" cx="75" cy="323" rx="12" ry="43"/><ellipse class="atlas-muscle" cx="105" cy="323" rx="12" ry="43"/><ellipse class="atlas-muscle" cx="69" cy="420" rx="9" ry="31"/><ellipse class="atlas-muscle" cx="111" cy="420" rx="9" ry="31"/></g>`;
- return base+'</svg>';
+ const bone=system!=='muscles';
+ let svg=`<svg viewBox="0 0 260 600" aria-label="${system} ${view} anatomical reference">`;
+ if(system==='bones'||system==='joints'){
+ svg+=`<g>
+ <path class="atlas-bone-fill" d="M104 32 Q130 7 156 32 Q166 47 160 72 Q156 91 143 103 L117 103 Q104 91 100 72 Q94 47 104 32Z"/>
+ <ellipse cx="116" cy="60" rx="8" ry="11" fill="#111318"/><ellipse cx="144" cy="60" rx="8" ry="11" fill="#111318"/><path class="atlas-bone-fine" d="M130 61 L125 78 L135 78 M112 87 Q130 101 148 87 M115 91 L118 101 M124 95 L125 104 M136 95 L135 104 M145 91 L142 101"/>
+ <path class="atlas-bone-stroke" d="M130 104 L130 300"/><path class="atlas-bone-fine" d="M119 108 L141 108 M118 116 L142 116 M119 124 L141 124"/>
+ <path class="atlas-bone-stroke" d="M130 130 Q102 121 77 136 M130 130 Q158 121 183 136"/>
+ <path class="atlas-bone-fine" d="M129 145 Q96 136 91 158 Q100 174 129 171 M131 145 Q164 136 169 158 Q160 174 131 171 M129 169 Q94 163 94 187 Q104 204 129 198 M131 169 Q166 163 166 187 Q156 204 131 198 M129 195 Q100 190 102 214 Q111 227 129 224 M131 195 Q160 190 158 214 Q149 227 131 224 M129 220 Q106 217 109 237 Q117 248 129 246 M131 220 Q154 217 151 237 Q143 248 131 246"/>
+ <path class="atlas-bone-stroke" d="M77 138 L61 247 M183 138 L199 247"/><circle class="atlas-bone-fill" cx="60" cy="253" r="6"/><circle class="atlas-bone-fill" cx="200" cy="253" r="6"/>
+ <path class="atlas-bone-fine" d="M57 260 L44 329 M64 260 L53 330 M203 260 L216 329 M196 260 L207 330"/>
+ <path class="atlas-bone-fine" d="M48 332 L39 355 M48 333 L45 359 M50 333 L52 359 M52 332 L60 355 M212 332 L221 355 M212 333 L215 359 M210 333 L208 359 M208 332 L200 355"/>
+ <path class="atlas-bone-stroke" d="M130 291 Q103 274 91 296 Q93 327 116 342 Q130 350 144 342 Q167 327 169 296 Q157 274 130 291Z"/><path class="atlas-bone-fine" d="M107 312 Q130 334 153 312"/>
+ <path class="atlas-bone-stroke" d="M112 341 L101 449 M148 341 L159 449"/><circle class="atlas-bone-fill" cx="100" cy="456" r="9"/><circle class="atlas-bone-fill" cx="160" cy="456" r="9"/>
+ <path class="atlas-bone-fine" d="M98 467 L91 557 M106 467 L104 557 M162 467 L169 557 M154 467 L156 557"/>
+ <path class="atlas-bone-stroke" d="M91 562 Q72 568 60 579 Q81 587 108 579 M169 562 Q188 568 200 579 Q179 587 152 579"/>
+ </g>`;
+ }
+ if(system==='joints') svg+=`<g>${[[130,101],[77,136],[183,136],[60,253],[200,253],[48,333],[212,333],[112,341],[148,341],[100,456],[160,456],[94,562],[166,562]].map(p=>`<circle class="atlas-joint" cx="${p[0]}" cy="${p[1]}" r="7"/>`).join('')}</g>`;
+ if(system==='muscles'){
+ svg+=`<g opacity=".98"><ellipse class="atlas-muscle" cx="130" cy="58" rx="29" ry="43"/><path class="atlas-muscle" d="M112 104 Q130 92 148 104 L156 126 Q144 139 130 139 Q116 139 104 126Z"/><ellipse class="atlas-muscle" cx="91" cy="145" rx="17" ry="20"/><ellipse class="atlas-muscle" cx="169" cy="145" rx="17" ry="20"/><path class="atlas-muscle" d="M103 139 Q130 127 157 139 L151 187 Q130 198 109 187Z"/><ellipse class="atlas-muscle" cx="76" cy="196" rx="11" ry="42"/><ellipse class="atlas-muscle" cx="184" cy="196" rx="11" ry="42"/><ellipse class="atlas-muscle" cx="57" cy="282" rx="9" ry="40"/><ellipse class="atlas-muscle" cx="203" cy="282" rx="9" ry="40"/><rect class="atlas-muscle" x="112" y="190" width="36" height="92" rx="15"/><ellipse class="atlas-muscle" cx="112" cy="321" rx="20" ry="25"/><ellipse class="atlas-muscle" cx="148" cy="321" rx="20" ry="25"/><ellipse class="atlas-muscle" cx="111" cy="397" rx="17" ry="57"/><ellipse class="atlas-muscle" cx="149" cy="397" rx="17" ry="57"/><ellipse class="atlas-muscle" cx="101" cy="507" rx="13" ry="43"/><ellipse class="atlas-muscle" cx="159" cy="507" rx="13" ry="43"/></g>`;
+ }
+ return svg+'</svg>';
+}
+function atlasLeader(labelX,labelY,targetX,targetY,side){
+ const figW=390, bodyLeft=70, bodyW=250, sx=side==='left'?105:285, sy=labelY+7, tx=bodyLeft+(targetX/260)*bodyW, ty=4+(targetY/600)*590;
+ const dx=tx-sx,dy=ty-sy,len=Math.hypot(dx,dy),ang=Math.atan2(dy,dx)*180/Math.PI;
+ return `<span class="atlas-leader" style="left:${sx}px;top:${sy}px;width:${len}px;transform:rotate(${ang}deg)"></span><span class="atlas-dot" style="left:${tx-2.5}px;top:${ty-2.5}px"></span>`;
 }
 function renderAtlas(){
  const labels=ATLAS_LABELS[atlasSystem][atlasView];
- let labelHtml=labels.map(([name,x,y,side])=>`<div class="atlas-label ${side}" style="${side==='left'?'left':'right'}:${x}px;top:${y}px">${name}</div>`).join('');
+ let labelHtml=labels.map(([name,x,y,side,tx,ty])=>`<div class="atlas-label ${side}" style="${side==='left'?'left':'right'}:${x}px;top:${y}px">${name}</div>${atlasLeader(x,y,tx,ty,side)}`).join('');
  const titles={bones:'Major Bones',joints:'Major Joints',muscles:'Major Muscles'};
- const notes={
-  bones:'Reference first, memorize later. This diagram gives you the big-picture landmarks while Monday Study builds them in small batches.',
-  joints:'These are major joint locations. Your formal joint lessons stay locked until the Bones phase is comfortable.',
-  muscles:'These are major muscle groups for visual orientation. Muscle Study will later connect each one to bones, joints, and movement.'
- };
+ const notes={bones:'Reference first, memorize later. Follow the leader lines from each name directly to the structure on the body.',joints:'Blue markers show the major joint locations. Your formal joint lessons stay locked until the Bones phase is comfortable.',muscles:'These are major muscle groups for visual orientation. Muscle Study will later connect each one to bones, joints, and movement.'};
  document.getElementById('atlasContent').innerHTML=`<div class="atlas-stage"><h3 class="atlas-title">${titles[atlasSystem]}</h3><div class="atlas-sub">${atlasView==='front'?'Anterior view · front':'Posterior view · back'}</div><div class="atlas-figure"><div class="atlas-body">${atlasSkeleton(atlasSystem,atlasView)}</div>${labelHtml}</div></div><div class="atlas-note">${notes[atlasSystem]}</div>`;
  document.querySelectorAll('.atlas-tab').forEach(b=>b.classList.toggle('on',b.dataset.system===atlasSystem));
  document.querySelectorAll('.view-tab').forEach(b=>b.classList.toggle('on',b.dataset.view===atlasView));
