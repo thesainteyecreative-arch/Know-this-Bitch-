@@ -22,13 +22,31 @@
 .dot{width:10px;height:10px;border-radius:50%;display:inline-block}.dot.blue{background:var(--blue)}.dot.green{background:var(--green)}.dot.gray{background:#747983}
 @media(max-width:620px){.bodymap{transform:scale(.94);transform-origin:top center;margin-bottom:-20px;height:620px}}
 
+
+/* V1.2 — Anatomy Atlas */
+.atlas-tabs,.view-tabs{display:flex;gap:8px;overflow:auto;padding:4px 0 10px}
+.atlas-tab,.view-tab{white-space:nowrap;border:1px solid #3b4048;background:#111318;color:#a9adb7;border-radius:999px;padding:10px 14px;font-weight:900}
+.atlas-tab.on,.view-tab.on{border-color:var(--blue);background:#10244a;color:#fff}
+.atlas-stage{position:relative;min-height:590px;border:1px solid #30343b;border-radius:24px;background:radial-gradient(circle at 50% 35%,#172033 0,#0c0e12 52%,#08090b 100%);overflow:hidden;padding:16px 8px}
+.atlas-title{text-align:center;margin:4px 0 0;font-size:22px}.atlas-sub{text-align:center;color:var(--muted);font-size:12px;margin:5px 0 12px}
+.atlas-figure{position:relative;width:310px;height:510px;margin:0 auto}
+.atlas-body{position:absolute;left:50%;top:8px;transform:translateX(-50%);width:180px;height:485px}
+.atlas-body svg{width:100%;height:100%;overflow:visible}
+.atlas-label{position:absolute;font-size:10px;font-weight:850;color:#e8ebf2;line-height:1.1;max-width:96px}
+.atlas-label.left{text-align:right}.atlas-label.right{text-align:left}
+.atlas-line{position:absolute;height:1px;background:#697180;transform-origin:left center}
+.atlas-note{margin-top:12px;background:#101319;border:1px solid #2d333c;border-radius:17px;padding:13px;color:var(--muted);font-size:13px;line-height:1.5}
+.system-key{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}.system-key div{background:#111318;border:1px solid #30343b;border-radius:14px;padding:10px;font-size:12px}
+.atlas-muscle{fill:#8d3535;stroke:#d06b6b;stroke-width:1.2}.atlas-joint{fill:#3679e8;stroke:#8bb8ff;stroke-width:2}.atlas-bone{fill:none;stroke:#e7dfcf;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}.atlas-thin{fill:none;stroke:#d9d1c2;stroke-width:3;stroke-linecap:round}
+@media(max-width:620px){.atlas-stage{min-height:610px}.atlas-figure{width:300px}}
+
 </style>
 </head><body><div class="wrap">
 <header class="top"><div class="brand">Exercise Science <b>HQ</b> 🦴</div><div id="saved" class="saved">Saved ✓</div></header>
 <div class="phasebar"><div class="phase on">🦴 Bones</div><div class="phase lock">🔗 Joints · Locked</div><div class="phase lock">💪🏽 Muscles · Locked</div></div>
 <section id="home" class="page"><div class="hero"><div class="eyebrow">Pre-School Edition · Anatomy Foundation</div><h1>Learn the body<br>one piece at a time.</h1><p>SEE IT → NAME IT → FIND IT → KNOW ITS JOB → REMEMBER IT → QUIZ IT</p></div>
 <div class="card drop"><div class="label">📥 Monday Study Drop</div><h2>Feed HQ this week's lesson.</h2><p class="soft">Paste Monday's structured Bone Study below. HQ saves the original drop, builds the week's module, adds the bones to Learn + Flashcards + Quiz, and keeps old weeks for review.</p><textarea id="drop" placeholder="REGION: Skull + Face\nBONE: Cranium\nWHERE: Head / skull\nJOB: Protects the brain\nFIND: Feel the hard structure around your head\nMEMORY: Cranium = brain's helmet\n\nBONE: Mandible\nWHERE: Lower jaw\n..."></textarea><div class="row"><button class="btn" id="build">Build This Week 🛠️</button><button class="btn alt" id="loadDemo">Load Week 1 Demo</button></div><p class="hint">Format: REGION once, then BONE / WHERE / JOB / FIND / MEMORY for each bone. You can paste any number of bones.</p></div>
-<div class="grid"><div class="tile active" onclick="nav('map')"><div class="emoji">🧍🏽‍♀️</div><h3>Body Map</h3><div class="soft">Tap a region → study it.</div></div><div class="tile active" onclick="nav('learn')"><div class="emoji">🦴</div><h3>Learn</h3><div class="soft">Region-by-region bone study.</div></div><div class="tile active" onclick="nav('flash')"><div class="emoji">🃏</div><h3>Flashcards</h3><div class="soft">Name → locate and locate → name.</div></div><div class="tile active" onclick="nav('quiz')"><div class="emoji">🎯</div><h3>Quiz</h3><div class="soft">Quick 5, weekly, review, Red Zone.</div></div><div class="tile active" onclick="nav('progress')"><div class="emoji">📈</div><h3>Progress</h3><div class="soft">See what's locked in.</div></div><div class="tile locked"><div class="emoji">🔗</div><h3>Joints</h3><div class="soft">Coming after Bones.</div></div></div>
+<div class="grid"><div class="tile active" onclick="nav('map')"><div class="emoji">🧍🏽‍♀️</div><h3>Body Map</h3><div class="soft">Tap a region → study it.</div></div><div class="tile active" onclick="nav('learn')"><div class="emoji">🦴</div><h3>Learn</h3><div class="soft">Region-by-region bone study.</div></div><div class="tile active" onclick="nav('flash')"><div class="emoji">🃏</div><h3>Flashcards</h3><div class="soft">Name → locate and locate → name.</div></div><div class="tile active" onclick="nav('quiz')"><div class="emoji">🎯</div><h3>Quiz</h3><div class="soft">Quick 5, weekly, review, Red Zone.</div></div><div class="tile active" onclick="nav('progress')"><div class="emoji">📈</div><h3>Progress</h3><div class="soft">See what's locked in.</div></div><div class="tile locked"><div class="emoji">🔗</div><h3>Joints</h3><div class="soft">Coming after Bones.</div></div><div class="tile active" onclick="nav('atlas')"><div class="emoji">🫀</div><h3>Anatomy Atlas</h3><div class="soft">See the full body. Bones, joints + muscles.</div></div></div>
 <div class="card"><div class="label">Study History</div><div id="history"></div></div></section>
 
 <section id="map" class="page hidden"><div class="hero"><div class="eyebrow">🧍🏽‍♀️ Body Map</div><h1>Head → toe.</h1><p>Tap a blue marker to jump into that bone region. Regions turn green once every bone inside is 🟢 locked in.</p></div><div class="card"><div class="bodymap">
@@ -82,6 +100,23 @@
 </div>
 <div class="maplegend"><span><i class="dot blue"></i> Tap to study</span><span><i class="dot green"></i> Region mastered</span><span><i class="dot gray"></i> Waiting for a drop</span></div><div class="regions" id="regionMapList"></div></div></section>
 
+
+<section id="atlas" class="page hidden">
+  <div class="hero"><div class="eyebrow">🫀 Anatomy Atlas · Reference Room</div><h1>See the whole body.</h1><p>This room is for looking, not testing. Explore the major bones, joints, and muscles anytime—even before they unlock in your study path.</p></div>
+  <div class="card">
+    <div class="atlas-tabs">
+      <button class="atlas-tab on" data-system="bones" onclick="setAtlasSystem('bones')">🦴 Bones</button>
+      <button class="atlas-tab" data-system="joints" onclick="setAtlasSystem('joints')">🔗 Joints</button>
+      <button class="atlas-tab" data-system="muscles" onclick="setAtlasSystem('muscles')">💪🏽 Muscles</button>
+    </div>
+    <div class="view-tabs">
+      <button class="view-tab on" data-view="front" onclick="setAtlasView('front')">Anterior · Front</button>
+      <button class="view-tab" data-view="back" onclick="setAtlasView('back')">Posterior · Back</button>
+    </div>
+    <div id="atlasContent"></div>
+  </div>
+</section>
+
 <section id="learn" class="page hidden"><div class="hero"><div class="eyebrow">🦴 Bone Study</div><h1>Learn.</h1><p>Small regions. Small batches. No one is dumping 206 bones on your desk and running away. 😂</p></div><div class="card"><div class="label">Body Regions</div><div class="regions" id="regions"></div></div><div class="card"><div class="label" id="regionLabel">Choose a region</div><div id="boneList" class="empty">Tap a region above to start.</div></div></section>
 
 <section id="flash" class="page hidden"><div class="hero"><div class="eyebrow">🃏 Flashcard Room</div><h1>Flip it.</h1><p>Study in both directions so you can name a bone AND recognize where it lives.</p></div><div class="card flash" id="flashCard" onclick="flipCard()"><div id="flashInner" class="empty">Add a Monday Study Drop first.</div></div><div class="row"><button class="btn alt" onclick="prevCard()">← Previous</button><button class="btn" onclick="nextCard()">Next →</button><button class="btn alt" onclick="toggleDirection()" id="directionBtn">Mode: Name → Location</button></div></section>
@@ -90,13 +125,60 @@
 
 <section id="progress" class="page hidden"><div class="hero"><div class="eyebrow">📈 My Progress</div><h1>Watch it stick.</h1><p>Mastery comes from your buttons and quiz performance—not vibes. 😂</p></div><div class="stats"><div class="stat"><span class="soft">Bones introduced</span><strong id="pBones">0</strong></div><div class="stat"><span class="soft">Regions completed</span><strong id="pRegions">0 / 8</strong></div><div class="stat"><span class="soft">Quiz accuracy</span><strong id="pAccuracy">—</strong></div><div class="stat"><span class="soft">Study sessions</span><strong id="pSessions">0</strong></div></div><div class="card"><div class="label">Mastery</div><div id="masteryStats"></div></div><div class="card"><div class="label">🚨 Red Zone</div><div id="redList"></div></div></section>
 </div>
-<nav class="nav"><button data-p="home" class="on">🏠 HQ</button><button data-p="map">🧍🏽‍♀️ Map</button><button data-p="learn">🦴 Learn</button><button data-p="flash">🃏 Cards</button><button data-p="quiz">🎯 Quiz</button><button data-p="progress">📈 Progress</button></nav>
+<nav class="nav"><button data-p="home" class="on">🏠 HQ</button><button data-p="map">🧍🏽‍♀️ Map</button><button data-p="learn">🦴 Learn</button><button data-p="flash">🃏 Cards</button><button data-p="quiz">🎯 Quiz</button><button data-p="progress">📈 Progress</button><button data-p="atlas">🫀 Atlas</button></nav>
 <script>
 const KEY='exerciseScienceHQ_preschool_v1';
 const REGION_ORDER=['Skull + Face','Spine','Chest + Ribs','Shoulder + Arm','Hands','Pelvis','Legs','Feet'];
 const demo=`REGION: Skull + Face\nBONE: Cranium\nWHERE: Head / skull\nJOB: Protects the brain and forms the main skull case\nFIND: Put your hand on the top and sides of your head\nMEMORY: Cranium = your brain's helmet\n\nBONE: Mandible\nWHERE: Lower jaw\nJOB: Holds the lower teeth and moves when you chew and talk\nFIND: Trace your jawline from your chin toward your ears\nMEMORY: Mandible = movable jaw\n\nBONE: Maxilla\nWHERE: Upper jaw / middle face\nJOB: Holds the upper teeth and helps form the nose and eye sockets\nFIND: Feel the area above your upper teeth and beside your nose\nMEMORY: Maxilla = MAX = upper jaw\n\nBONE: Zygomatic\nWHERE: Cheekbone\nJOB: Forms the prominence of the cheek and part of the eye socket\nFIND: Touch the hard cheekbone below the outer corner of your eye\nMEMORY: Zygomatic = cheekbone you can actually feel`;
 const fresh=()=>({weeks:[],bones:{},quiz:{right:0,total:0},sessions:0,currentRegion:'Skull + Face'});
 let data=(()=>{try{return JSON.parse(localStorage.getItem(KEY))||fresh()}catch(e){return fresh()}})();let flashIndex=0,flipped=false,reverse=false,quizState=null;
+
+let atlasSystem='bones',atlasView='front';
+const ATLAS_LABELS={
+bones:{
+ front:[['Skull / cranium',8,28,'left'],['Mandible',82,46,'right'],['Clavicle',5,94,'left'],['Sternum',82,116,'right'],['Ribs',4,142,'left'],['Humerus',82,168,'right'],['Radius',4,213,'left'],['Ulna',82,230,'right'],['Pelvis',5,272,'left'],['Femur',82,325,'right'],['Patella',5,376,'left'],['Tibia',82,410,'right'],['Fibula',5,434,'left'],['Tarsals / Metatarsals / Phalanges',72,468,'right']],
+ back:[['Skull / cranium',8,28,'left'],['Cervical vertebrae',78,72,'right'],['Scapula',5,110,'left'],['Vertebrae / spine',78,145,'right'],['Ribs',5,174,'left'],['Humerus',78,201,'right'],['Radius + Ulna',4,239,'left'],['Pelvis',78,280,'right'],['Femur',5,330,'left'],['Tibia + Fibula',78,411,'right'],['Calcaneus',8,472,'left']]
+},
+joints:{
+ front:[['TMJ · jaw',8,47,'left'],['Shoulder',80,101,'right'],['Elbow',5,183,'left'],['Wrist',80,232,'right'],['Hip',5,286,'left'],['Knee',80,378,'right'],['Ankle',5,458,'left']],
+ back:[['Neck / cervical',78,70,'right'],['Shoulder',5,105,'left'],['Elbow',78,184,'right'],['Wrist',5,232,'left'],['Spinal joints',78,205,'right'],['Hip',5,286,'left'],['Knee',78,378,'right'],['Ankle',5,458,'left']]
+},
+muscles:{
+ front:[['Deltoid',5,102,'left'],['Pectoralis major',78,125,'right'],['Biceps',4,168,'left'],['Forearm muscles',78,215,'right'],['Rectus abdominis',5,222,'left'],['Hip flexor region',78,284,'right'],['Quadriceps',4,338,'left'],['Tibialis anterior',78,418,'right']],
+ back:[['Trapezius',5,88,'left'],['Deltoid',78,110,'right'],['Triceps',5,168,'left'],['Latissimus dorsi',78,198,'right'],['Erector spinae',5,232,'left'],['Gluteus maximus',78,286,'right'],['Hamstrings',5,345,'left'],['Gastrocnemius · calf',78,417,'right']]
+}};
+function atlasSkeleton(system,view){
+ let base=`<svg viewBox="0 0 180 500" aria-label="${system} ${view} reference diagram">
+ <ellipse cx="90" cy="38" rx="27" ry="33" fill="${system==='muscles'?'#8d3535':'#e7dfcf'}" stroke="#cfc6b5" stroke-width="1.5"/>
+ <path class="${system==='muscles'?'atlas-muscle':'atlas-bone'}" d="M90 72 L90 245"/>
+ <path class="${system==='muscles'?'atlas-muscle':'atlas-thin'}" d="M90 92 Q62 86 49 104 M90 92 Q118 86 131 104"/>
+ <path class="${system==='muscles'?'atlas-muscle':'atlas-thin'}" d="M90 110 Q60 105 58 132 Q68 145 90 140 M90 110 Q120 105 122 132 Q112 145 90 140 M90 136 Q63 134 65 158 Q73 170 90 166 M90 136 Q117 134 115 158 Q107 170 90 166"/>
+ <path class="${system==='muscles'?'atlas-muscle':'atlas-bone'}" d="M49 105 L35 195 M131 105 L145 195"/>
+ <path class="${system==='muscles'?'atlas-muscle':'atlas-thin'}" d="M35 198 L24 263 M40 198 L32 264 M145 198 L156 263 M140 198 L148 264"/>
+ <path class="${system==='muscles'?'atlas-muscle':'atlas-thin'}" d="M90 238 Q67 222 57 243 Q60 267 81 276 Q90 281 99 276 Q120 267 123 243 Q113 222 90 238"/>
+ <path class="${system==='muscles'?'atlas-muscle':'atlas-bone'}" d="M78 274 L69 374 M102 274 L111 374"/>
+ <path class="${system==='muscles'?'atlas-muscle':'atlas-thin'}" d="M69 382 L65 470 M76 382 L75 469 M111 382 L115 470 M104 382 L105 469"/>
+ <path class="${system==='muscles'?'atlas-muscle':'atlas-bone'}" d="M65 474 Q52 478 43 487 Q58 491 77 486 M115 474 Q128 478 137 487 Q122 491 103 486"/>`;
+ if(system==='joints') base+=`<g>${[[90,72],[49,105],[131,105],[35,198],[145,198],[29,264],[151,264],[78,274],[102,274],[69,378],[111,378],[67,471],[113,471]].map(p=>`<circle class="atlas-joint" cx="${p[0]}" cy="${p[1]}" r="6"/>`).join('')}</g>`;
+ if(system==='muscles') base+=`<g opacity=".95"><ellipse class="atlas-muscle" cx="62" cy="112" rx="12" ry="18"/><ellipse class="atlas-muscle" cx="118" cy="112" rx="12" ry="18"/><ellipse class="atlas-muscle" cx="90" cy="137" rx="20" ry="25"/><ellipse class="atlas-muscle" cx="47" cy="154" rx="9" ry="27"/><ellipse class="atlas-muscle" cx="133" cy="154" rx="9" ry="27"/><rect class="atlas-muscle" x="77" y="164" width="26" height="63" rx="12"/><ellipse class="atlas-muscle" cx="75" cy="323" rx="12" ry="43"/><ellipse class="atlas-muscle" cx="105" cy="323" rx="12" ry="43"/><ellipse class="atlas-muscle" cx="69" cy="420" rx="9" ry="31"/><ellipse class="atlas-muscle" cx="111" cy="420" rx="9" ry="31"/></g>`;
+ return base+'</svg>';
+}
+function renderAtlas(){
+ const labels=ATLAS_LABELS[atlasSystem][atlasView];
+ let labelHtml=labels.map(([name,x,y,side])=>`<div class="atlas-label ${side}" style="${side==='left'?'left':'right'}:${x}px;top:${y}px">${name}</div>`).join('');
+ const titles={bones:'Major Bones',joints:'Major Joints',muscles:'Major Muscles'};
+ const notes={
+  bones:'Reference first, memorize later. This diagram gives you the big-picture landmarks while Monday Study builds them in small batches.',
+  joints:'These are major joint locations. Your formal joint lessons stay locked until the Bones phase is comfortable.',
+  muscles:'These are major muscle groups for visual orientation. Muscle Study will later connect each one to bones, joints, and movement.'
+ };
+ document.getElementById('atlasContent').innerHTML=`<div class="atlas-stage"><h3 class="atlas-title">${titles[atlasSystem]}</h3><div class="atlas-sub">${atlasView==='front'?'Anterior view · front':'Posterior view · back'}</div><div class="atlas-figure"><div class="atlas-body">${atlasSkeleton(atlasSystem,atlasView)}</div>${labelHtml}</div></div><div class="atlas-note">${notes[atlasSystem]}</div>`;
+ document.querySelectorAll('.atlas-tab').forEach(b=>b.classList.toggle('on',b.dataset.system===atlasSystem));
+ document.querySelectorAll('.view-tab').forEach(b=>b.classList.toggle('on',b.dataset.view===atlasView));
+}
+window.setAtlasSystem=s=>{atlasSystem=s;renderAtlas()};
+window.setAtlasView=v=>{atlasView=v;renderAtlas()};
+
 function save(){localStorage.setItem(KEY,JSON.stringify(data));document.getElementById('saved').textContent='Saved ✓';renderAll()}
 function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function nav(p){document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));document.getElementById(p).classList.remove('hidden');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('on',x.dataset.p===p));window.scrollTo(0,0);renderAll()}
@@ -119,5 +201,5 @@ window.startQuiz=mode=>{let pool=boneArray();if(mode==='week'&&data.weeks.length
 function renderQuestion(){let q=quizState,box=document.getElementById('quizBox');if(q.i>=q.questions.length){box.innerHTML=`<div class="label">Finished</div><h2>${q.score} / ${q.questions.length}</h2><p class="soft">${q.score===q.questions.length?'Okay anatomy scholarrrrr 😂🦴':'Anything missed is now easier to find in review.'}</p>`;return}let b=q.questions[q.i],all=boneArray().filter(x=>x.name!==b.name),opts=shuffle([b,...shuffle(all).slice(0,3)]);box.innerHTML=`<div class="label">Question ${q.i+1} of ${q.questions.length}</div><h2>Which bone is located at: ${esc(b.where)}?</h2><div>${opts.map(o=>`<button class="quizopt" onclick="answerQuiz('${esc(o.name)}')">${esc(o.name)}</button>`).join('')}</div>`}
 window.answerQuiz=name=>{if(!quizState||quizState.answered)return;quizState.answered=true;let b=quizState.questions[quizState.i],ok=name===b.name;data.quiz.total++;if(ok){data.quiz.right++;quizState.score++;b.right=(b.right||0)+1}else{b.wrong=(b.wrong||0)+1;if(b.mastery==='green')b.mastery='yellow';else b.mastery='red'}save();let buttons=[...document.querySelectorAll('.quizopt')];buttons.forEach(x=>{if(x.textContent===b.name)x.classList.add('correct');else if(x.textContent===name&&!ok)x.classList.add('wrong');x.disabled=true});setTimeout(()=>{quizState.i++;quizState.answered=false;renderQuestion()},650)};
 function renderProgress(){let a=boneArray(),g=a.filter(b=>b.mastery==='green').length,y=a.filter(b=>b.mastery==='yellow').length,r=a.filter(b=>b.mastery==='red').length,done=REGION_ORDER.filter(regionDone).length,acc=data.quiz.total?Math.round(data.quiz.right/data.quiz.total*100)+'%':'—';document.getElementById('pBones').textContent=a.length+' / 206';document.getElementById('pRegions').textContent=done+' / 8';document.getElementById('pAccuracy').textContent=acc;document.getElementById('pSessions').textContent=data.sessions;document.getElementById('masteryStats').innerHTML=`<p>🟢 Locked In — <b>${g}</b></p><p>🟡 Almost — <b>${y}</b></p><p>🔴 Needs Work — <b>${r}</b></p><div class="progressbar"><div style="width:${a.length?g/a.length*100:0}%"></div></div>`;let red=a.filter(b=>b.mastery==='red'||b.wrong>b.right);document.getElementById('redList').innerHTML=red.length?red.map(b=>`<div class="bone"><b>${esc(b.name)}</b><div class="soft">${esc(b.region)} · wrong ${b.wrong||0} time(s)</div></div>`).join(''):'<div class="empty">Nobody is in the Red Zone. We love peace. 😂</div>'}
-function renderAll(){renderHistory();renderRegions();renderBones();renderFlash();renderProgress()};renderAll();
+function renderAll(){renderHistory();renderRegions();renderBones();renderFlash();renderProgress();renderAtlas()};renderAll();
 </script></body></html>
